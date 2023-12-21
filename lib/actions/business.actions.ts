@@ -1,6 +1,6 @@
 "use server";
 
-import Location from "../models/Business.model";
+import Location from "../models/business.model";
 import { connectDatabase } from "../mongoose";
 
 export async function fetchAllLocations(city: string, province: string) {
