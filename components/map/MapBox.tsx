@@ -9,6 +9,7 @@ import { useEffect, useRef, useState } from 'react';
 import { useLocationContext } from '@/context/LocationContext';
 import { MapBoxRouteContentType, LocationType, LocationFullInfoType } from '@/types';
 import { MapBoxInfo, MapBoxLocation, MapBoxRoute } from '.';
+import { Skeleton } from "@/components/ui/skeleton";
 
 
 const MapBox = () => {
@@ -109,7 +110,7 @@ const MapBox = () => {
   }, [travelType, newLocation])
 
   return (
-    <div className="w-screen h-screen">
+    <div className="w-full h-full flex flex-1 justify-center items-center">
       {userLocation.latitude !== 0 ? (
         <Map
           ref={mapRef}
@@ -149,8 +150,12 @@ const MapBox = () => {
           <MapBoxLocation mapRef={mapRef} />
         </Map>
       ) : (
-        <div className="w-screnn h-screen flex items-center justify-center">
-          No Location Found!
+        <div className="flex items-center space-x-4">
+          <Skeleton className="h-12 w-12 rounded-full" />
+          <div className="space-y-2">
+            <Skeleton className="h-4 w-[250px]" />
+            <Skeleton className="h-4 w-[200px]" />
+          </div>
         </div>
       )}
       {routeData && isShowRoute && <MapBoxInfo routeData={routeData} />}

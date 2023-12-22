@@ -4,8 +4,8 @@ import { useEffect, useState } from "react";
 import { converLocationInfoData, getCenterLocation } from '@/lib/utils';
 import { useFetchLocationData } from "@/lib/queries/queriesAndMutations";
 import { useLocationContext } from "@/context/LocationContext";
-import { MapLoader } from ".";
 import { LocationFullInfoType } from "@/types";
+import { Loader } from "../shared";
 
 const MapBoxLocation = ({ mapRef }: { mapRef: any }) => {
 
@@ -27,7 +27,13 @@ const MapBoxLocation = ({ mapRef }: { mapRef: any }) => {
 
   return (
     <>
-      {isLoadingLocation && <MapLoader />}
+      {isLoadingLocation && (
+        <div className="fixed left-2 md:left-1/2 -translate-x-0 md:-translate-x-1/2 bottom-2 md:bottom-auto md:top-20 p-2 md:p-4 border border-dark bg-light
+        rounded-lg flex justify-center items-center gap-2 z-[10]">
+          <Loader />
+          <h2 className="text-sm md:text-lg font-bold">Loading Locations...</h2>
+        </div>
+      )}
       <Source
         id='earthquakes'
         type='geojson'

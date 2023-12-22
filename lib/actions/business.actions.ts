@@ -10,10 +10,10 @@ export async function fetchAllLocations(city: string, province: string) {
       "city_name": city,
       "city_life_name": province
     }).select("address city_name longitude latitude -_id")
-      .limit(600);
+      .limit(10);
     return JSON.parse(JSON.stringify(allLocation));
   } catch (error: any) {
-    console.error("Failed to fetch posts", error.message);
+    console.error("Failed to fetch locations", error.message);
   }
 }
 

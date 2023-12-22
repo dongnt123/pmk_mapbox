@@ -66,3 +66,21 @@ export type LocationFullInfoType = {
   longitude: Number;
   latitude: Number;
 }
+
+export type ContentContextType = {
+  menuSideBarStatus: boolean;
+  setMenuSideBarStatus: React.Dispatch<React.SetStateAction<boolean>>;
+}
+
+export type UserInfoType = {
+  id: string;
+  name: string;
+  username: string;
+  email: string;
+  imageUrl: string;
+};
+
+export type AuthContextType = {
+  user: UserInfoType;
+  setUser: React.Dispatch<React.SetStateAction<UserInfoType>>;
+};

@@ -1,8 +1,11 @@
 import type { Metadata } from 'next';
 import { Montserrat } from 'next/font/google';
 
-import LocationProvider from "@/context/LocationContext";
 import '../globals.css';
+import { LeftSideBar, Navbar } from '@/components/shared';
+import LocationProvider from "@/context/LocationContext";
+import ContentProvider from '@/context/ContentContext';
+import AuthProvider from '@/context/AuthContext';
 
 const montserrat = Montserrat({
   subsets: ['latin'],
@@ -11,15 +14,25 @@ const montserrat = Montserrat({
 
 export const metadata: Metadata = {
   title: 'PMK Mapbox',
-  description: 'Mapbox description',
+  description: 'Find a place to become smokey!!',
 }
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
-      <LocationProvider>
-        <body className={montserrat.className}>{children}</body>
-      </LocationProvider>
+      <ContentProvider>
+        <LocationProvider>
+          <AuthProvider>
+            <body className={montserrat.className}>
+              <Navbar />
+              <main className='w-full h-[calc(100vh-60px)] flex'>
+                <LeftSideBar />
+                {children}
+              </main>
+            </body>
+          </AuthProvider>
+        </LocationProvider>
+      </ContentProvider>
     </html>
   )
 }

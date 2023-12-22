@@ -38,7 +38,7 @@ const CitySelect = () => {
         <PopoverContent className="w-[300px] p-0 bg-light text-dark">
           <Command>
             <CommandInput placeholder="Search city..." />
-            <ScrollArea className="h-[200px] md:h-[300px]">
+            <ScrollArea className="max-h-[200px] md:max-h-[300px]">
               <CommandEmpty>No city found.</CommandEmpty>
               <CommandGroup>
                 {allCities && allCities?.map((city: string) => (
