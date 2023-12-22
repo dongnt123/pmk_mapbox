@@ -4,7 +4,6 @@ import Image from 'next/image';
 
 import { Toaster } from '@/components/ui/toaster';
 import '../globals.css';
-import AuthProvider from '@/context/AuthContext';
 
 const montserrat = Montserrat({
   subsets: ['latin'],
@@ -19,17 +18,15 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
-      <AuthProvider>
-        <body className={montserrat.className}>
-          <main className='w-full h-screen flex'>
-            <section className="flex flex-1 justify-center items-center flex-col p-4">
-              {children}
-            </section>
-            <Image src="/images/side-img.svg" alt="Cover" width={800} height={800} className="hidden xl:block h-screen w-1/2 object-cover bg-no-repeat" />
-          </main>
-          <Toaster />
-        </body>
-      </AuthProvider>
+      <body className={montserrat.className}>
+        <main className='w-full h-screen flex'>
+          <section className="flex flex-1 justify-center items-center flex-col p-4">
+            {children}
+          </section>
+          <Image src="/images/side-img.svg" alt="Cover" width={800} height={800} className="hidden xl:block h-screen w-1/2 object-cover bg-no-repeat" />
+        </main>
+        <Toaster />
+      </body>
     </html>
   )
 }

@@ -3,9 +3,6 @@ import { Montserrat } from 'next/font/google';
 
 import '../globals.css';
 import { LeftSideBar, Navbar } from '@/components/shared';
-import LocationProvider from "@/context/LocationContext";
-import ContentProvider from '@/context/ContentContext';
-import AuthProvider from '@/context/AuthContext';
 
 const montserrat = Montserrat({
   subsets: ['latin'],
@@ -20,19 +17,13 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
-      <ContentProvider>
-        <LocationProvider>
-          <AuthProvider>
-            <body className={montserrat.className}>
-              <Navbar />
-              <main className='w-full h-[calc(100vh-60px)] flex'>
-                <LeftSideBar />
-                {children}
-              </main>
-            </body>
-          </AuthProvider>
-        </LocationProvider>
-      </ContentProvider>
+      <body className={montserrat.className}>
+        <Navbar />
+        <main className='w-full h-[calc(100vh-60px)] flex'>
+          <LeftSideBar />
+          {children}
+        </main>
+      </body>
     </html>
   )
 }

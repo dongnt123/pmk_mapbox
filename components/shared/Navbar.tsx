@@ -13,9 +13,6 @@ const Navbar = () => {
   const { menuSideBarStatus, setMenuSideBarStatus } = useContentContext();
   const { user } = useUserContext();
 
-  console.log(user);
-
-
   return (
     <header className="h-[60px] bg-light shadow-md relative z-[20] px-[24px] md:px-[40px] flex justify-between items-center">
       <div className="flex justify-center items-center cursor-pointer group" onClick={() => setMenuSideBarStatus(!menuSideBarStatus)}>
