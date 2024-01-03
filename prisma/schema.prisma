@@ -1,0 +1,149 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
+model business {
+  commercial_business_number                     String @db.Text
+  business_name                                  String @db.Text
+  branch_name                                    String @db.Text
+  commercial_industry_classification_code_big    String @db.Text
+  commercial_industry_classification_name        String @db.Text
+  commercial_industry_classification_code_middle String @db.Text
+  commercial_industry_classification_name_middle String @db.Text
+  commercial_industry_classification_code_small  String @db.Text
+  commercial_industry_classification_name_small  String @db.Text
+  standard_industrial_classification_code        String @db.Text
+  standard_industrial_classification_name        String @db.Text
+  attempt_code                                   String @db.Text
+  city_name                                      String @db.Text
+  city_county_code                               String @db.VarChar(20)
+  city_county_name                               String @db.Text
+  administrative_building_code                   String @db.Text
+  administrative_building_name                   String @db.Text
+  legal_district_code                            String @db.Text
+  legal_district_name                            String @db.Text
+  address_code                                   String @db.Text
+  land_classification_code                       String @db.Text
+  land_classification_name                       String @db.Text
+  main_address_number                            String @db.Text
+  address_number                                 String @db.Text
+  address                                        String @db.Text
+  road_name_code                                 String @db.Text
+  road_name                                      String @db.Text
+  building_address                               String @db.Text
+  building_address_detail                        String @db.Text
+  building_number                                String @db.Text
+  building_name                                  String @db.Text
+  street_name_address                            String @db.Text
+  old_zip_code                                   String @db.Text
+  new_zip_code                                   String @db.Text
+  district_information                           String @db.Text
+  floor_information                              String @db.Text
+  number_information                             String @db.Text
+  longtitude                                     Float
+  latitude                                       Float
+
+  @@ignore
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
+model business_pmk {
+  store_code             String? @db.VarChar(7)
+  store_type             String? @db.VarChar(12)
+  retail_store_code      String? @db.VarChar(7)
+  store_status           String? @db.VarChar(2)
+  store_name             String? @db.VarChar(25)
+  address                String? @db.VarChar(49)
+  address_detail         String? @db.VarChar(35)
+  latitude               String? @db.VarChar(10)
+  longitude              String? @db.VarChar(10)
+  phone_number           String? @db.VarChar(14)
+  parking_status         String? @db.VarChar(5)
+  opening_hours          String? @db.VarChar(72)
+  A_S_time               String? @map("A/S_time") @db.VarChar(63)
+  store_closed           String? @db.VarChar(33)
+  general_business_hours String? @db.VarChar(83)
+  accessory_handling     String? @db.VarChar(5)
+  admcd                  Int?
+  admcd2                 BigInt?
+
+  @@ignore
+}
+
+model User {
+  id                    String                 @id @default(cuid())
+  name                  String?
+  email                 String?                @unique
+  emailVerified         DateTime?
+  image                 String?
+  password              String?
+  role                  UserRole               @default(USER)
+  isEnableTwoFactor     Boolean                @default(false)
+  accounts              Account[]
+  twoFactorConfirmation TwoFactorConfirmation?
+}
+
+enum UserRole {
+  ADMIN
+  USER
+}
+
+model Account {
+  id                String  @id @default(cuid())
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String? @db.Text
+  access_token      String? @db.Text
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String? @db.Text
+  session_state     String?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+}
+
+model VerificationToken {
+  id      String   @id @default(cuid())
+  email   String
+  token   String   @unique
+  expires DateTime
+
+  @@unique([email, token])
+}
+
+model ResetPasswordToken {
+  id      String   @id @default(cuid())
+  email   String
+  token   String   @unique
+  expires DateTime
+
+  @@unique([email, token])
+}
+
+model TwoFactorToken {
+  id      String   @id @default(cuid())
+  email   String
+  token   String   @unique
+  expires DateTime
+
+  @@unique([email, token])
+}
+
+model TwoFactorConfirmation {
+  id     String @id @default(cuid())
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId])
+}

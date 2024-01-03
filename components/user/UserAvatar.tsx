@@ -14,14 +14,15 @@ import {
   DropdownMenuSubTrigger,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { UserInfoType } from "@/types";
 
-const UserAvatar = () => {
+const UserAvatar = ({ user }: { user: UserInfoType }) => {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild className="cursor-pointer">
         <Avatar>
-          <AvatarImage src="https://github.com/shadcn.png" alt="@shadcn" />
-          <AvatarFallback>CN</AvatarFallback>
+          <AvatarImage src={user.imageUrl} alt={user.name} />
+          <AvatarFallback>{user.name.split(' ').map(word => word.charAt(0).toUpperCase()).join('')}</AvatarFallback>
         </Avatar>
       </DropdownMenuTrigger>
       <DropdownMenuContent className="w-56 bg-light -translate-x-6">

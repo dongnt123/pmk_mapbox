@@ -110,7 +110,7 @@ const MapBox = () => {
   }, [travelType, newLocation])
 
   return (
-    <div className="w-full h-full flex flex-1 justify-center items-center">
+    <div className="w-full h-full flex justify-center items-center">
       {userLocation.latitude !== 0 ? (
         <Map
           ref={mapRef}

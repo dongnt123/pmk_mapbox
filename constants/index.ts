@@ -27,7 +27,7 @@ export const sidebarLinks = [
     submenu: [
       { title: "사진 업로드", link: "/" },
       { title: "관리 상권 조회", link: "/" },
-      { title: "관리 상권 업로드", link: "/" }
+      { title: "관리 상권 업로드", link: "/list" }
     ]
   }
 ]

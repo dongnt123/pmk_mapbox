@@ -41,6 +41,7 @@ const ProvinceSelect = () => {
             <CommandGroup>
               {allProvinces && allProvinces?.map((province: string) => (
                 <CommandItem
+                  className={`${position.province !== province ? "hover:bg-muted cursor-pointer" : "pointer-events-none"}`}
                   key={province}
                   value={province}
                   onSelect={(currentValue) => {

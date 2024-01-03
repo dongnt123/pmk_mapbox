@@ -24,7 +24,7 @@ const Navbar = () => {
       </div>
       <div>
         {user.username ? (
-          <UserAvatar />
+          <UserAvatar user={user} />
         ) : (
           <Button asChild>
             <Link href="/sign-in" className="bg-primary text-light">Login</Link>

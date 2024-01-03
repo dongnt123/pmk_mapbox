@@ -6,10 +6,12 @@ import { useFetchLocationData } from "@/lib/queries/queriesAndMutations";
 import { useLocationContext } from "@/context/LocationContext";
 import { LocationFullInfoType } from "@/types";
 import { Loader } from "../shared";
+import { useContentContext } from "@/context/ContentContext";
 
 const MapBoxLocation = ({ mapRef }: { mapRef: any }) => {
 
   const { position } = useLocationContext();
+  const { menuSideBarStatus } = useContentContext();
   const { data: locations, isFetching: isLoadingLocation } = useFetchLocationData(position.city, position.province);
   const [allLocation, setAllLocation] = useState<LocationFullInfoType[]>();
 
@@ -28,8 +30,8 @@ const MapBoxLocation = ({ mapRef }: { mapRef: any }) => {
   return (
     <>
       {isLoadingLocation && (
-        <div className="fixed left-2 md:left-1/2 -translate-x-0 md:-translate-x-1/2 bottom-2 md:bottom-auto md:top-20 p-2 md:p-4 border border-dark bg-light
-        rounded-lg flex justify-center items-center gap-2 z-[10]">
+        <div className={`${menuSideBarStatus ? "md:left-2/3" : "md:left-1/2"} fixed left-2 md:left-1/2 -translate-x-0 md:-translate-x-1/2 bottom-2 md:bottom-auto md:top-20 p-2 md:p-4 border border-dark bg-light
+        rounded-lg flex justify-center items-center gap-2 z-[10]`}>
           <Loader />
           <h2 className="text-sm md:text-lg font-bold">Loading Locations...</h2>
         </div>

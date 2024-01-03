@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 import { Montserrat } from 'next/font/google';
 
 import '../globals.css';
-import { LeftSideBar, Navbar } from '@/components/shared';
+import { Navbar } from '@/components/shared';
 
 const montserrat = Montserrat({
   subsets: ['latin'],
@@ -19,8 +19,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html lang="en">
       <body className={montserrat.className}>
         <Navbar />
-        <main className='w-full h-[calc(100vh-60px)] flex'>
-          <LeftSideBar />
+        <main className='w-full h-[calc(100vh-60px)]'>
           {children}
         </main>
       </body>

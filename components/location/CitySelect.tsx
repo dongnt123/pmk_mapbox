@@ -43,6 +43,7 @@ const CitySelect = () => {
               <CommandGroup>
                 {allCities && allCities?.map((city: string) => (
                   <CommandItem
+                    className={`${position.city !== city ? "hover:bg-muted cursor-pointer" : "pointer-events-none"}`}
                     key={city}
                     value={city}
                     onSelect={(currentValue) => {

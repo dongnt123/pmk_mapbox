@@ -1,3 +1,4 @@
+import { SortOptionsType } from './../../types/index';
 "use server";
 
 import Location from "../models/business.model";
@@ -36,5 +37,31 @@ export async function fetchProvinceByCity(city: string) {
     return JSON.parse(JSON.stringify(allProvinces));
   } catch (error: any) {
     console.error("Failed to fetch provinces", error.message);
+  }
+}
+
+export async function fetchListLocation(pageSize: number, pageNumber = 1, sortOption: SortOptionsType, searchParam = "") {
+  connectDatabase();
+  try {
+
+    const skipAmount = (pageNumber - 1) * pageSize;
+    console.log(pageSize, pageNumber, sortOption, searchParam);
+
+    const allLocationsQuery = searchParam !== "" ? Location.find({ "street_name_address": { $regex: '.*' + searchParam + '.*' } }) : Location.find();
+    allLocationsQuery.sort({ [sortOption.field]: sortOption.order })
+      .skip(skipAmount)
+      .limit(pageSize);
+
+    const totalLocationsCount = await Location.countDocuments();
+    const locations = await allLocationsQuery.exec();
+    const isNext = totalLocationsCount > skipAmount + locations.length;
+    console.log(locations);
+    return JSON.parse(JSON.stringify({
+      locations,
+      totalLocationsCount,
+      isNext
+    }));
+  } catch (error: any) {
+    console.error("Failed to fetch locations", error.message);
   }
 }
