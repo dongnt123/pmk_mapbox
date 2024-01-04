@@ -1,6 +1,6 @@
-import { LocationFullInfoType } from "@/types";
-import { type ClassValue, clsx } from "clsx"
+import { type ClassValue, clsx } from "clsx";
 import { twMerge } from "tailwind-merge"
+import { business } from "@prisma/client";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))
@@ -16,7 +16,7 @@ export function secondsToHoursMinutes(seconds: number) {
   }
 }
 
-export function converLocationInfoData(data: LocationFullInfoType[] | undefined) {
+export function converLocationInfoData(data: business[] | undefined) {
   if (data) {
     const convertedData = data?.map((location) => (
       {
@@ -52,7 +52,7 @@ export function converLocationInfoData(data: LocationFullInfoType[] | undefined)
 
 }
 
-export function getCenterLocation(data: LocationFullInfoType[] | undefined) {
+export function getCenterLocation(data: business[] | undefined) {
   const sumCenterPositon = data?.reduce((centerPoint, location) => {
     return {
       ...centerPoint,

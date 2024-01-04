@@ -1,3 +1,5 @@
+"use client";
+
 import { Dispatch, SetStateAction } from "react";
 
 import { travelOptions } from "@/constants";
@@ -12,8 +14,8 @@ type TravelOptionProps = {
 }
 
 const TravelOption = ({ type, isActive, setTravelType }: TravelOptionProps) => (
-  <div className={`flex justify-center items-center p-2 rounded-lg cursor-pointer border border-dark hover:bg-dark transition ease-linear duration-150
-  hover:text-light capitalize text-sm md:text-base ${isActive && "bg-dark text-light"}`}
+  <div className={`flex justify-center items-center p-2 rounded-lg cursor-pointer border border-muted hover:bg-primary transition ease-linear duration-150
+  hover:text-white capitalize text-sm md:text-base ${isActive && "bg-primary text-white"}`}
     onClick={() => setTravelType(type)}
   >
     {type === "driving-traffic" ? "traffic" : type}

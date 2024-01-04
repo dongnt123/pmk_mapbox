@@ -1,11 +1,11 @@
-import { Layer, Source } from "react-map-gl";
 import { useEffect, useState } from "react";
+import { Layer, Source } from "react-map-gl";
+import { BounceLoader } from "react-spinners";
+import { business } from "@prisma/client";
 
 import { converLocationInfoData, getCenterLocation } from '@/lib/utils';
 import { useFetchLocationData } from "@/lib/queries/queriesAndMutations";
 import { useLocationContext } from "@/context/LocationContext";
-import { LocationFullInfoType } from "@/types";
-import { Loader } from "../shared";
 import { useContentContext } from "@/context/ContentContext";
 
 const MapBoxLocation = ({ mapRef }: { mapRef: any }) => {
@@ -13,7 +13,7 @@ const MapBoxLocation = ({ mapRef }: { mapRef: any }) => {
   const { position } = useLocationContext();
   const { menuSideBarStatus } = useContentContext();
   const { data: locations, isFetching: isLoadingLocation } = useFetchLocationData(position.city, position.province);
-  const [allLocation, setAllLocation] = useState<LocationFullInfoType[]>();
+  const [allLocation, setAllLocation] = useState<business[]>();
 
   useEffect(() => {
     if (locations) {
@@ -30,9 +30,9 @@ const MapBoxLocation = ({ mapRef }: { mapRef: any }) => {
   return (
     <>
       {isLoadingLocation && (
-        <div className={`${menuSideBarStatus ? "md:left-2/3" : "md:left-1/2"} fixed left-2 md:left-1/2 -translate-x-0 md:-translate-x-1/2 bottom-2 md:bottom-auto md:top-20 p-2 md:p-4 border border-dark bg-light
-        rounded-lg flex justify-center items-center gap-2 z-[10]`}>
-          <Loader />
+        <div className={`${menuSideBarStatus ? "md:left-2/3" : "md:left-1/2"} fixed left-2 md:left-1/2 -translate-x-0 md:-translate-x-1/2 bottom-2 md:bottom-auto md:top-20 p-2 md:p-4 border border-dark bg-white
+        rounded-lg flex justify-center items-center gap-2 z-[10] transition-all ease-in-out duration-500`}>
+          <BounceLoader size={40} color="black" />
           <h2 className="text-sm md:text-lg font-bold">Loading Locations...</h2>
         </div>
       )}

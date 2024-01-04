@@ -1,13 +1,14 @@
 "use client";
 
-import Map, { Marker, NavigationControl, Popup } from 'react-map-gl';
-import 'mapbox-gl/dist/mapbox-gl.css';
-import mapboxgl from 'mapbox-gl';
-import Image from 'next/image';
 import { useEffect, useRef, useState } from 'react';
+import Map, { Marker, NavigationControl, Popup } from 'react-map-gl';
+import Image from 'next/image';
+import mapboxgl from 'mapbox-gl';
+import { business } from '@prisma/client';
+import 'mapbox-gl/dist/mapbox-gl.css';
 
 import { useLocationContext } from '@/context/LocationContext';
-import { MapBoxRouteContentType, LocationType, LocationFullInfoType } from '@/types';
+import { MapBoxRouteContentType, LocationType } from '@/types';
 import { MapBoxInfo, MapBoxLocation, MapBoxRoute } from '.';
 import { Skeleton } from "@/components/ui/skeleton";
 
@@ -28,7 +29,7 @@ const MapBox = () => {
   const [routeData, setRouteData] = useState<MapBoxRouteContentType>();
   const [isShowPopup, setIsShowPopup] = useState<boolean>(false);
   const [isShowRoute, setIsShowRoute] = useState<boolean>(false);
-  const [popupData, setPopupData] = useState<LocationFullInfoType>()
+  const [popupData, setPopupData] = useState<business>()
 
   const handleChooseLocation = (e: mapboxgl.MapLayerMouseEvent) => {
     // For clusters layer

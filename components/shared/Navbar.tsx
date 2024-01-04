@@ -4,32 +4,25 @@ import Link from "next/link";
 
 import { useContentContext } from "@/context/ContentContext";
 import { Button } from "../ui/button";
-import { UserAvatar } from "../user";
 import { CloseIcon, MenuIcon } from "./Icon";
-import { useUserContext } from "@/context/AuthContext";
 
 const Navbar = () => {
 
   const { menuSideBarStatus, setMenuSideBarStatus } = useContentContext();
-  const { user } = useUserContext();
 
   return (
     <header className="h-[60px] bg-light shadow-md relative z-[20] px-[24px] md:px-[40px] flex justify-between items-center">
       <div className="flex justify-center items-center cursor-pointer group" onClick={() => setMenuSideBarStatus(!menuSideBarStatus)}>
         {menuSideBarStatus ? (
-          <CloseIcon className="fill-dark group-hover:fill-primary" />
+          <CloseIcon className="fill-primary group-hover:fill-sky-500" />
         ) : (
-          <MenuIcon className="fill-dark group-hover:fill-primary" />
+          <MenuIcon className="fill-primary group-hover:fill-sky-500" />
         )}
       </div>
       <div>
-        {user.username ? (
-          <UserAvatar user={user} />
-        ) : (
-          <Button asChild>
-            <Link href="/sign-in" className="bg-primary text-light">Login</Link>
-          </Button>
-        )}
+        <Button variant="default" asChild>
+          <Link href="/auth/sign-in">Login</Link>
+        </Button>
       </div>
     </header>
   )

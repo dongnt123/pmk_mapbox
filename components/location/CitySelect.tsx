@@ -1,8 +1,9 @@
 import { useState } from "react";
 
-import { usefetchAllCities } from "@/lib/queries/queriesAndMutations";
 import { Check, ChevronsUpDown } from "lucide-react";
+
 import { cn } from "@/lib/utils";
+import { cities } from "@prisma/client";
 import { Button } from "@/components/ui/button";
 import {
   Command,
@@ -17,13 +18,15 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { ProvinceSelect } from ".";
+import { usefetchAllCities } from "@/lib/queries/queriesAndMutations";
 import { useLocationContext } from "@/context/LocationContext";
+import { ProvinceSelect } from ".";
 
 const CitySelect = () => {
 
   const { position, setPosition } = useLocationContext();
   const { data: allCities } = usefetchAllCities();
+
   const [open, setOpen] = useState<boolean>(false);
 
   return (
@@ -41,11 +44,11 @@ const CitySelect = () => {
             <ScrollArea className="max-h-[200px] md:max-h-[300px]">
               <CommandEmpty>No city found.</CommandEmpty>
               <CommandGroup>
-                {allCities && allCities?.map((city: string) => (
+                {allCities && allCities?.map((city: cities) => (
                   <CommandItem
-                    className={`${position.city !== city ? "hover:bg-muted cursor-pointer" : "pointer-events-none"}`}
-                    key={city}
-                    value={city}
+                    className={`${position.city !== city.name ? "hover:bg-muted cursor-pointer" : "pointer-events-none"}`}
+                    key={city.id}
+                    value={city.name}
                     onSelect={(currentValue) => {
                       setOpen(false);
                       setPosition(prevState => ({
@@ -55,8 +58,8 @@ const CitySelect = () => {
                       }))
                     }}
                   >
-                    <Check className={cn("mr-2 h-4 w-4", position.city === city ? "opacity-100" : "opacity-0")} />
-                    {city}
+                    <Check className={cn("mr-2 h-4 w-4", position.city === city.name ? "opacity-100" : "opacity-0")} />
+                    {city.name}
                   </CommandItem>
                 ))}
               </CommandGroup>

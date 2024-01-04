@@ -12,10 +12,10 @@ const ListPage = () => {
 
   const { menuSideBarStatus } = useContentContext();
   const [searchParam, setSearchParam] = useState<string>("");
-  const { data: allLocations, isFetching } = usefetchListLocation(30, 1, {
-    field: "street_name_address",
-    order: "desc"
-  }, searchParam);
+  // const { data: allLocations, isFetching } = usefetchListLocation(30, 1, {
+  //   field: "street_name_address",
+  //   order: "desc"
+  // }, searchParam);
 
   return (
     <div className={`
@@ -48,7 +48,7 @@ const ListPage = () => {
               </DropdownMenuContent>
             </DropdownMenu> */}
           </div>
-          {isFetching ? <Loader /> : <ListLocation data={allLocations.locations} />}
+          {/* {isFetching ? <Loader /> : <ListLocation data={allLocations.locations} />} */}
           {/* <div className="flex items-center justify-end space-x-2 py-4">
             <div className="flex-1 text-sm text-muted-foreground">
               {table.getFilteredSelectedRowModel().rows.length} of{" "}

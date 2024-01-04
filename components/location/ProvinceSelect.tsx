@@ -1,7 +1,7 @@
 import { useState } from "react";
-
-import { usefetchProvinceByCity } from "@/lib/queries/queriesAndMutations";
 import { Check, ChevronsUpDown } from "lucide-react";
+
+import { provinces } from "@prisma/client";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import {
@@ -17,6 +17,7 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import { usefetchProvinceByCity } from "@/lib/queries/queriesAndMutations";
 import { useLocationContext } from "@/context/LocationContext";
 
 const ProvinceSelect = () => {
@@ -39,11 +40,11 @@ const ProvinceSelect = () => {
           <ScrollArea className="h-[200px] md:h-[300px]">
             <CommandEmpty>No province found.</CommandEmpty>
             <CommandGroup>
-              {allProvinces && allProvinces?.map((province: string) => (
+              {allProvinces && allProvinces?.map((province: provinces) => (
                 <CommandItem
-                  className={`${position.province !== province ? "hover:bg-muted cursor-pointer" : "pointer-events-none"}`}
-                  key={province}
-                  value={province}
+                  className={`${position.province !== province.name ? "hover:bg-muted cursor-pointer" : "pointer-events-none"}`}
+                  key={province.id}
+                  value={province.name}
                   onSelect={(currentValue) => {
                     setOpen(false);
                     setPosition(prevState => ({
@@ -52,8 +53,8 @@ const ProvinceSelect = () => {
                     }))
                   }}
                 >
-                  <Check className={cn("mr-2 h-4 w-4", position.province === province ? "opacity-100" : "opacity-0")} />
-                  {province}
+                  <Check className={cn("mr-2 h-4 w-4", position.province === province.name ? "opacity-100" : "opacity-0")} />
+                  {province.name}
                 </CommandItem>
               ))}
             </CommandGroup>

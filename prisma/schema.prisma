@@ -7,9 +7,64 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
+model account {
+  id                String  @id
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String? @db.Text
+  access_token      String? @db.Text
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String? @db.Text
+  session_state     String?
+  User              user    @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+  @@index([userId], map: "Account_userId_fkey")
+}
+
+model two_factor_confirmation {
+  id     String @id
+  userId String @unique
+  User   user   @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model two_factor_token {
+  id      String   @id
+  email   String
+  token   String   @unique
+  expires DateTime
+
+  @@unique([email, token])
+}
+
+model user {
+  id                    String                   @id
+  name                  String?
+  email                 String?                  @unique
+  emailVerified         DateTime?
+  image                 String?
+  password              String?
+  role                  user_role                @default(USER)
+  isEnableTwoFactor     Boolean                  @default(false)
+  Account               account[]
+  TwoFactorConfirmation two_factor_confirmation?
+}
+
+model verification_token {
+  id      String   @id
+  email   String
+  token   String   @unique
+  expires DateTime
+
+  @@unique([email, token])
+}
+
 model business {
-  commercial_business_number                     String @db.Text
+  commercial_business_number                     String @id @db.VarChar(100)
   business_name                                  String @db.Text
   branch_name                                    String @db.Text
   commercial_industry_classification_code_big    String @db.Text
@@ -46,104 +101,28 @@ model business {
   district_information                           String @db.Text
   floor_information                              String @db.Text
   number_information                             String @db.Text
-  longtitude                                     Float
+  longitude                                      Float
   latitude                                       Float
-
-  @@ignore
 }
 
-/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
-model business_pmk {
-  store_code             String? @db.VarChar(7)
-  store_type             String? @db.VarChar(12)
-  retail_store_code      String? @db.VarChar(7)
-  store_status           String? @db.VarChar(2)
-  store_name             String? @db.VarChar(25)
-  address                String? @db.VarChar(49)
-  address_detail         String? @db.VarChar(35)
-  latitude               String? @db.VarChar(10)
-  longitude              String? @db.VarChar(10)
-  phone_number           String? @db.VarChar(14)
-  parking_status         String? @db.VarChar(5)
-  opening_hours          String? @db.VarChar(72)
-  A_S_time               String? @map("A/S_time") @db.VarChar(63)
-  store_closed           String? @db.VarChar(33)
-  general_business_hours String? @db.VarChar(83)
-  accessory_handling     String? @db.VarChar(5)
-  admcd                  Int?
-  admcd2                 BigInt?
+model cities {
+  id       Int         @id @default(autoincrement())
+  name     String      @db.Char(100)
+  province provinces[]
 
-  @@ignore
+  @@unique([name])
 }
 
-model User {
-  id                    String                 @id @default(cuid())
-  name                  String?
-  email                 String?                @unique
-  emailVerified         DateTime?
-  image                 String?
-  password              String?
-  role                  UserRole               @default(USER)
-  isEnableTwoFactor     Boolean                @default(false)
-  accounts              Account[]
-  twoFactorConfirmation TwoFactorConfirmation?
+model provinces {
+  id        Int     @id @default(autoincrement())
+  name      String  @db.Char(100)
+  city_name String? @db.Char(100)
+  cities    cities? @relation(fields: [city_name], references: [name])
+
+  @@unique([city_name, name])
 }
 
-enum UserRole {
+enum user_role {
   ADMIN
   USER
-}
-
-model Account {
-  id                String  @id @default(cuid())
-  userId            String
-  type              String
-  provider          String
-  providerAccountId String
-  refresh_token     String? @db.Text
-  access_token      String? @db.Text
-  expires_at        Int?
-  token_type        String?
-  scope             String?
-  id_token          String? @db.Text
-  session_state     String?
-
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
-
-  @@unique([provider, providerAccountId])
-}
-
-model VerificationToken {
-  id      String   @id @default(cuid())
-  email   String
-  token   String   @unique
-  expires DateTime
-
-  @@unique([email, token])
-}
-
-model ResetPasswordToken {
-  id      String   @id @default(cuid())
-  email   String
-  token   String   @unique
-  expires DateTime
-
-  @@unique([email, token])
-}
-
-model TwoFactorToken {
-  id      String   @id @default(cuid())
-  email   String
-  token   String   @unique
-  expires DateTime
-
-  @@unique([email, token])
-}
-
-model TwoFactorConfirmation {
-  id     String @id @default(cuid())
-  userId String
-  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
-
-  @@unique([userId])
 }

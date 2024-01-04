@@ -2,7 +2,6 @@ import type { Metadata } from 'next';
 import { Montserrat } from 'next/font/google';
 import Image from 'next/image';
 
-import { Toaster } from '@/components/ui/toaster';
 import '../globals.css';
 
 const montserrat = Montserrat({
@@ -15,7 +14,7 @@ export const metadata: Metadata = {
   description: 'Authentication for PMK Mapbox',
 }
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
+export default function AuthLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
       <body className={montserrat.className}>
@@ -25,7 +24,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           </section>
           <Image src="/images/side-img.svg" alt="Cover" width={800} height={800} className="hidden xl:block h-screen w-1/2 object-cover bg-no-repeat" />
         </main>
-        <Toaster />
       </body>
     </html>
   )

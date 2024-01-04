@@ -1,14 +1,23 @@
 "use server";
 
-import User from "../models/user.model";
-import { connectDatabase } from "../mongoose";
+import { database } from "../database";
 
-export async function getCurrentUser(username: string) {
-  connectDatabase();
+export const getUserByEmail = async (email: string) => {
   try {
-    const user = await User.findOne({ "username": username });
-    return JSON.parse(JSON.stringify(user));
-  } catch (error: any) {
-    console.error("Failed to fetch user", error.message);
+    const user = database.user.findUnique({ where: { email } })
+
+    return user;
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+export const getUserById = async (id: string) => {
+  try {
+    const user = database.user.findUnique({ where: { id } })
+
+    return user;
+  } catch (error) {
+    console.log(error);
   }
 }

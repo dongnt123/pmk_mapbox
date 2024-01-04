@@ -1,16 +1,8 @@
 export const travelOptions = [
-  {
-    type: "driving-traffic"
-  },
-  {
-    type: "driving"
-  },
-  {
-    type: "walking"
-  },
-  {
-    type: "cycling"
-  }
+  { type: "driving-traffic" },
+  { type: "driving" },
+  { type: "walking" },
+  { type: "cycling" }
 ]
 
 export const sidebarLinks = [
