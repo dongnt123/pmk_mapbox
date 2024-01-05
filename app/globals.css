@@ -81,3 +81,10 @@ body,
     @apply bg-background text-foreground;
   }
 }
+
+@layer components {
+  /* Form */
+  .shad-input {
+    @apply h-12 bg-white border-primary placeholder:text-muted-foreground focus-visible:ring-1 focus-visible:ring-offset-1 ring-offset-primary !important;
+  }
+}

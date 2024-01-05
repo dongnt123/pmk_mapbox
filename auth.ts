@@ -25,10 +25,6 @@ export const { handlers: { GET, POST }, auth, signIn, signOut } = NextAuth({
       // Allow OAuth providers
       if (account?.provider !== "credentials") return true;
 
-      // Email verify check
-      const existingUser = await getUserById(user.id);
-      if (!existingUser || !existingUser.emailVerified) return false;
-
       return true;
     },
     async session({ token, session }) {

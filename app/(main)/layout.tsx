@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import { Montserrat } from 'next/font/google';
+import { SessionProvider } from 'next-auth/react';
 
 import '../globals.css';
 import LocationProvider from "@/context/LocationContext";
@@ -20,6 +21,7 @@ export default function MainLayout({ children }: { children: React.ReactNode }) 
   return (
     <ContentProvider>
       <LocationProvider>
+        <SessionProvider>
           <html lang="en">
             <body className={montserrat.className}>
               <Navbar />
@@ -28,6 +30,7 @@ export default function MainLayout({ children }: { children: React.ReactNode }) 
               </main>
             </body>
           </html>
+        </SessionProvider>
       </LocationProvider>
     </ContentProvider>
   )

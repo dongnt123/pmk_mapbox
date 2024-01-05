@@ -14,10 +14,10 @@ type CardWrapperProps = {
 const CardWrapper = ({ children, headerLabel, headerDesc, backButtonLabel, backButtonButtonLabel, backButtonLink }: CardWrapperProps) => {
   return (
     <div className="w-full md:w-[420px] flex flex-col gap-y-6">
-      <div className="flex justify-center items-center gap-4">
+      <Link href="/" className="flex justify-center items-center gap-4">
         <Image src="/images/logo.png" alt="Logo" width={50} height={50} className="object-cover" />
         <h2 className="text-3xl text-primary font-bold">PMK Mapbox</h2>
-      </div>
+      </Link>
       <h2 className="text-center text-3xl">{headerLabel}</h2>
       {headerDesc && <p className="text-base text-center">{headerDesc}</p>}
       {children}

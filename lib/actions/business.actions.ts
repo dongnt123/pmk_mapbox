@@ -1,8 +1,6 @@
 "use server";
 
 import { database } from "../database";
-import Location from "../(for mongodb)/business.model";
-import { connectDatabase } from "../(for mongodb)/mongoose";
 import { SortOptionsType } from './../../types/index';
 
 export const fetchAllLocations = async (city: string, province: string) => {
@@ -45,27 +43,30 @@ export async function fetchProvinceByCity(city: string) {
   }
 }
 
-export async function fetchListLocation(pageSize: number, pageNumber = 1, sortOption: SortOptionsType, searchParam = "") {
-  connectDatabase();
+export async function fetchListLocation(pageSize = 10, pageNumber = 1, sortOption: SortOptionsType, searchParam: string) {
   try {
-
+    console.log(123);
+    
     const skipAmount = (pageNumber - 1) * pageSize;
-    console.log(pageSize, pageNumber, sortOption, searchParam);
 
-    const allLocationsQuery = searchParam !== "" ? Location.find({ "street_name_address": { $regex: '.*' + searchParam + '.*' } }) : Location.find();
-    allLocationsQuery.sort({ [sortOption.field]: sortOption.order })
-      .skip(skipAmount)
-      .limit(pageSize);
+    const allLocations = await database.business.findMany({
+      skip: skipAmount,
+      take: pageSize,
+      where: {
+        address: {
+          contains: searchParam
+        }
+      },
+      orderBy: [
+        { [sortOption.field]: sortOption.order }
+      ]
+    });
 
-    const totalLocationsCount = await Location.countDocuments();
-    const locations = await allLocationsQuery.exec();
-    const isNext = totalLocationsCount > skipAmount + locations.length;
-    console.log(locations);
-    return JSON.parse(JSON.stringify({
-      locations,
-      totalLocationsCount,
-      isNext
-    }));
+    const totalLocationsCount = await database.business.count()
+    return {
+      allLocations,
+      totalLocationsCount
+    };
   } catch (error: any) {
     console.error("Failed to fetch locations", error.message);
   }

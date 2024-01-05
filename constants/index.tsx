@@ -1,3 +1,8 @@
+import { FcGoogle } from "react-icons/fc";
+import { FaGithub } from "react-icons/fa";
+import { SiKakaotalk } from "react-icons/si";
+import { SiNaver } from "react-icons/si";
+
 export const travelOptions = [
   { type: "driving-traffic" },
   { type: "driving" },
@@ -22,4 +27,11 @@ export const sidebarLinks = [
       { title: "관리 상권 업로드", link: "/list" }
     ]
   }
+]
+
+export const socialLogin = [
+  { type: "google", icon: <FcGoogle size={20} /> },
+  { type: "github", icon: <FaGithub size={20} /> },
+  { type: "kakao", icon: <SiKakaotalk size={20} /> },
+  { type: "naver", icon: <SiNaver size={20} /> },
 ]

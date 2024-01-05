@@ -8,7 +8,7 @@ datasource db {
 }
 
 model account {
-  id                String  @id
+  id                String  @id @default(cuid())
   userId            String
   type              String
   provider          String
@@ -20,7 +20,7 @@ model account {
   scope             String?
   id_token          String? @db.Text
   session_state     String?
-  User              user    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user              user    @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@unique([provider, providerAccountId])
   @@index([userId], map: "Account_userId_fkey")
@@ -42,7 +42,7 @@ model two_factor_token {
 }
 
 model user {
-  id                    String                   @id
+  id                    String                   @id @default(cuid())
   name                  String?
   email                 String?                  @unique
   emailVerified         DateTime?
@@ -50,7 +50,7 @@ model user {
   password              String?
   role                  user_role                @default(USER)
   isEnableTwoFactor     Boolean                  @default(false)
-  Account               account[]
+  account               account[]
   TwoFactorConfirmation two_factor_confirmation?
 }
 

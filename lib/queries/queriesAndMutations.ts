@@ -26,11 +26,3 @@ export const usefetchProvinceByCity = (city: string) => {
     enabled: !!city
   })
 }
-
-export const usefetchListLocation = (pageSize: number, pageNumber = 1, sortOption: SortOptionsType, searchParam = "") => {
-  return useQuery({
-    queryKey: [QUERY_KEYS.GET_LIST_LOCATIONS, pageNumber, sortOption, searchParam],
-    queryFn: () => fetchListLocation(pageSize, pageNumber, sortOption, searchParam),
-    enabled: !!pageNumber && !!sortOption && !!searchParam
-  })
-}

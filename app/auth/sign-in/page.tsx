@@ -1,5 +1,7 @@
 "use client";
 
+import { useState, useTransition } from "react";
+import { useSearchParams } from "next/navigation";
 import * as z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
@@ -16,8 +18,17 @@ import {
 import { Input } from "@/components/ui/input";
 import { SignInValidation } from "@/lib/validation";
 import CardWrapper from "../_components/CardWrapper";
+import { FormError, FormSuccess } from "@/components/shared";
+import { handleSignInAction } from "@/lib/actions/auth.actions";
+import Social from "../_components/Social";
 
 const SignIn = () => {
+
+  const searchParams = useSearchParams();
+  const callBackUrl = searchParams.get("callBackUrl");
+  const [isPending, startTransition] = useTransition();
+  const [error, setError] = useState<string | undefined>("");
+  const [success, setSuccess] = useState<string | undefined>("");
 
   const form = useForm<z.infer<typeof SignInValidation>>({
     resolver: zodResolver(SignInValidation),
@@ -28,6 +39,18 @@ const SignIn = () => {
   })
 
   const onSubmit = async (values: z.infer<typeof SignInValidation>) => {
+    setError("");
+    setSuccess("");
+    startTransition(() => {
+      handleSignInAction(values, callBackUrl)
+        .then((data) => {
+          setError(data.error);
+          setSuccess(data.success);
+        })
+        .catch(() => {
+          setError("Something went wrong!");
+        });
+    });
   }
 
   return (
@@ -44,7 +67,7 @@ const SignIn = () => {
             <FormItem>
               <FormLabel>Email</FormLabel>
               <FormControl>
-                <Input type="email" className="shad-input" {...field} />
+                <Input placeholder="dongnt@mz.co.kr" type="email" className="shad-input" {...field} disabled={isPending} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -53,12 +76,15 @@ const SignIn = () => {
             <FormItem>
               <FormLabel>Password</FormLabel>
               <FormControl>
-                <Input type="password" className="shad-input" {...field} />
+                <Input placeholder="******" type="password" className="shad-input" {...field} disabled={isPending} autoComplete="on" />
               </FormControl>
               <FormMessage />
             </FormItem>
           )} />
-          <Button type="submit">Sign in</Button>
+          <FormError message={error} />
+          <FormSuccess message={success} />
+          <Social />
+          <Button type="submit" disabled={isPending}>Sign in</Button>
         </form>
       </Form>
     </CardWrapper >
